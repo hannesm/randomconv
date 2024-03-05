@@ -1,15 +1,28 @@
 
+(* revise once lower bound OCaml 4.13 *)
+let string_get_uint8 s idx =
+  Bytes.get_uint8 (Bytes.unsafe_of_string s) idx
+
+let string_get_uint16 s idx =
+  Bytes.get_uint16_le (Bytes.unsafe_of_string s) idx
+
+let string_get_int32 s idx =
+  Bytes.get_int32_le (Bytes.unsafe_of_string s) idx
+
+let string_get_int64 s idx =
+  Bytes.get_int64_le (Bytes.unsafe_of_string s) idx
+
 type int8 = int
 
-let int8 g = Cstruct.get_uint8 (g 1) 0
+let int8 g = string_get_uint8 (g 1) 0
 
 type int16 = int
 
-let int16 g = Cstruct.LE.get_uint16 (g 2) 0
+let int16 g = string_get_uint16 (g 2) 0
 
-let int32 g = Cstruct.LE.get_uint32 (g 4) 0
+let int32 g = string_get_int32 (g 4) 0
 
-let int64 g = Cstruct.LE.get_uint64 (g 8) 0
+let int64 g = string_get_int64 (g 8) 0
 
 let bitmask n =
   let rec go c = function
